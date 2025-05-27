@@ -154,6 +154,8 @@ export default function (vm, useCatBlocks) {
     const controlColors = ScratchBlocks.Colours.control;
 
     const eventColors = ScratchBlocks.Colours.event;
+	
+	const objectColors = ScratchBlocks.Colours.object;
 
     ScratchBlocks.Blocks.sound_sounds_menu.init = function () {
         const json = jsonForMenuBlock('SOUND_MENU', soundsMenu, soundColors, []);
@@ -310,6 +312,11 @@ export default function (vm, useCatBlocks) {
             [mouse, '_mouse_'],
             [edge, '_edge_']
         ]);
+        this.jsonInit(json);
+    };
+	
+    ScratchBlocks.Blocks.object_nearlist_menu.init = function () {
+        const json = jsonForMenuBlock('OBJECT_OPTION', cloneMenu, objectColors, []);
         this.jsonInit(json);
     };
 

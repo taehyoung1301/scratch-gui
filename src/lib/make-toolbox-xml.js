@@ -152,6 +152,47 @@ const xmlEscape = function (unsafe) {
         }
     });
 };
+/////////////////////////////////////////yes
+const object = function (isInitialSetup, isStage, targetId, colors) {
+    const hello = ScratchBlocks.ScratchMsgs.translate('LOOKS_HELLO', 'Hello!');
+    // Note: the category's secondaryColour matches up with the blocks' tertiary color, both used for border color.
+    return `
+    <category name="%{BKY_CATEGORY_OBJECT}" id="object" colour="${colors.primary}" secondaryColour="${colors.tertiary}">
+        <block type="object_alert">
+            <value name="MESSAGE">
+                <shadow type="text">
+                    <field name="TEXT">${hello}</field>
+                </shadow>
+            </value>
+        </block>
+		<block type="object_adjacent_objects"/>
+		<block type="object_nearlist">
+			<value name="OBJECT_OPTION">
+                <shadow type="object_nearlist_menu"/>
+            </value>
+        </block>
+		<block type="object_on_collision">
+			<value name="OBJECT_OPTION">
+                <shadow type="object_nearlist_menu"/>
+            </value>
+        </block>
+		<block type="object_on_collision_totem">
+			<value name="OBJECT_OPTION">
+                <shadow type="object_nearlist_menu"/>
+            </value>
+        </block>
+		<block type="object_runfunction">
+            <value name="TARGETOBJECT">
+				<shadow type="object_nearlist_menu"/>
+            </value>
+			<value name="TARGETFUNCTION">
+				<shadow type="object_nearlist_menu"/>
+            </value>
+        </block>
+        ${categorySeparator}
+    </category>
+    `;
+};
 
 const looks = function (isInitialSetup, isStage, targetId, costumeName, backdropName, colors) {
     const hello = ScratchBlocks.ScratchMsgs.translate('LOOKS_HELLO', 'Hello!');
@@ -159,7 +200,7 @@ const looks = function (isInitialSetup, isStage, targetId, costumeName, backdrop
     // Note: the category's secondaryColour matches up with the blocks' tertiary color, both used for border color.
     return `
     <category name="%{BKY_CATEGORY_LOOKS}" id="looks" colour="${colors.primary}" secondaryColour="${colors.tertiary}">
-        ${isStage ? '' : `
+		${isStage ? '' : `
         <block type="looks_sayforsecs">
             <value name="MESSAGE">
                 <shadow type="text">
@@ -380,6 +421,12 @@ const events = function (isInitialSetup, isStage, targetId, colors) {
         <block type="event_broadcastandwait">
             <value name="BROADCAST_INPUT">
               <shadow type="event_broadcast_menu"></shadow>
+            </value>
+        </block>
+		${blockSeparator}
+        <block type="event_whentouchingobject">
+            <value name="TOUCHINGOBJECTMENU">
+                <shadow type="control_create_clone_of_menu"/>
             </value>
         </block>
         ${categorySeparator}
@@ -776,6 +823,7 @@ const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categ
         }
         // return `undefined`
     };
+    const objectXML = moveCategory('object') || object(isInitialSetup, isStage, targetId, colors.object);
     const motionXML = moveCategory('motion') || motion(isInitialSetup, isStage, targetId, colors.motion);
     const looksXML = moveCategory('looks') ||
         looks(isInitialSetup, isStage, targetId, costumeName, backdropName, colors.looks);
@@ -789,6 +837,7 @@ const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categ
 
     const everything = [
         xmlOpen,
+		objectXML, gap,
         motionXML, gap,
         looksXML, gap,
         soundXML, gap,

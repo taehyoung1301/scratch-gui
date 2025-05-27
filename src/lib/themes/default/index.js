@@ -1,4 +1,10 @@
 const blockColors = {
+	object: {
+        primary: "#60a05c",
+        secondary: "#4c8249",
+        tertiary: "#31542f",
+        quaternary: "#31542f"
+    },
     motion: {
         primary: '#4C97FF',
         secondary: '#4280D7',
